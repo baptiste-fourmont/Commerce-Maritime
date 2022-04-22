@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-04-22T09:45:19.118Z" agent="5.0 (X11)" etag="yoMjaahTCndzLM3lbypU" version="17.4.6" type="github">
+<mxfile host="app.diagrams.net" modified="2022-04-22T09:45:26.070Z" agent="5.0 (X11)" etag="H1B7-k5QDHMCsi_aDEnc" version="17.4.6" type="github">
   <diagram id="M3qwxkjvVHB1TLSqi7v7" name="Page-1">
     <mxGraphModel dx="3602" dy="2074" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -264,9 +264,6 @@
         </mxCell>
         <mxCell id="f82FTuH1MrGcWTbL5-VP-67" value="Nation A" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" vertex="1" parent="1">
           <mxGeometry x="-1110" y="-300" width="60" height="30" as="geometry" />
-        </mxCell>
-        <mxCell id="f82FTuH1MrGcWTbL5-VP-74" value="Text" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" vertex="1" parent="1">
-          <mxGeometry x="240" y="-210" width="60" height="30" as="geometry" />
         </mxCell>
         <mxCell id="f82FTuH1MrGcWTbL5-VP-75" value="17) Si la distance du voyage &lt; 1000 alors le voyage ne peut pas être intercontinental&#xa;18) Si la distance du voyage &gt; 2000, alors le voyage doit avoir plusieurs étapes&#xa;19) Un port ne peut pas être capturé&#xa;20) Un navire ne peut effectuer qu&#39;un seul voyage en même temps et tout ses voyages doivent être espacés d&#39;au moins 2 semaines&#xa;21) Si le navire est intercontinental, navire.categorie = 5&#xa;22) Si la distance &gt; 1000 alors les produits que transporte un navire doivent être obligatoirement sec&#xa;23) Produit.perissable = true pour &#39;perissable&#39; et false pour &#39;sec&#39;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;" vertex="1" parent="1">
           <mxGeometry x="430" y="-370" width="590" height="185" as="geometry" />
