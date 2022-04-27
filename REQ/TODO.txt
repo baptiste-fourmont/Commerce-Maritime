@@ -1,0 +1,6 @@
+AJOUTER chaque fichiers avec:
+REQ1.sql
+REQ2.sql
+jusqu'à 20
+
+et un fichier avec toute les requêtes
