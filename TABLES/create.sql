@@ -77,3 +77,19 @@ CREATE TABLE corresponding(
     FOREIGN KEY(id_navire) REFERENCES navire(id_navire),
     FOREIGN KEY(begin_date) REFERENCES voyage(begin_date)
 );
+
+CREATE TABLE nationality(
+    name_nation varchar(32) NOT NULL,
+    id_navire SERIAL,
+    PRIMARY KEY(id_navire, name_nation),
+    FOREIGN KEY(id_navire) REFERENCES navire(id_navire),
+    FOREIGN KEY(name) REFERENCES nation(name)
+);
+
+CREATE TABLE diplomatics_relations(
+    nation1 varchar(32) NOT NULL,
+    nation2 varchar(32) NOT NULL,
+    CONSTRAINT CHK_nation1 FOREIGN KEY(nation1) REFERENCES nation(name),
+    CONSTRAINT CHK_nation2 FOREIGN KEY(nation2) REFERENCES nation(name),
+    CONSTRAINT CHK_nations CHECK(nation1 != nation2)
+);
