@@ -9,6 +9,12 @@ DROP TABLE IF EXISTS port;
 DROP TABLE IF EXISTS voyage;
 DROP TABLE IF EXISTS etape_transitoire;
 DROP TABLE IF EXISTS produits;
+DROP TABLE IF EXISTS membership;
+DROP TABLE IF EXISTS origin;
+DROP TABLE IF EXISTS destination;
+DROP TABLE IF EXISTS cargo;
+DROP TABLE IF EXISTS corresponding;
+DROP TABLE IF EXISTS diplomatics_relations;
 
 CREATE TYPE type_navire AS ENUM('Flûte', 'Galion', 'Gabare');
 
@@ -110,10 +116,24 @@ CREATE TABLE cargo(
     cale_max int NOT NULL,
     PRIMARY KEY(caragaison_id),
 
-    FOREIGN KEY(id_navire) REFERENCES navire(id_navire),
-    FOREIGN KEY(product_id) REFERENCES produits(product_id),
+    FOREIGN KEY(id_navire) REFERENCES navire(id_navire) ON DELETE CASCADE,
+    FOREIGN KEY(product_id) REFERENCES produits(product_id) ON DELETE CASCADE,
     FOREIGN KEY(quantity) REFERENCES produits(quantity),
     FOREIGN KEY(cale_max) REFERENCES navire(cale_max),
     FOREIGN KEY(volume) REFERENCES produits(volume),
     CONSTRAINT CHK_Cargaison CHECK(quantity * volume < cale_max)
+);
+
+CREATE TABLE origin(
+    id_navire varchar(32) NOT NULL,
+    name varchar(32) NOT NULL,
+    FOREIGN KEY(id_navire) REFERENCES navire(id_navire) ON DELETE CASCADE,
+    FOREIGN KEY(name) REFERENCES port(name) ON DELETE CASCADE
+);
+
+CREATE TABLE destination(
+    id_navire varchar(32) NOT NULL,
+    name varchar(32) NOT NULL,
+    FOREIGN KEY(id_navire) REFERENCES navire(id_navire) ON DELETE CASCADE,
+    FOREIGN KEY(name) REFERENCES port(name) ON DELETE CASCADE
 );
