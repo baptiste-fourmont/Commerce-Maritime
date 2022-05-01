@@ -22,10 +22,30 @@ CREATE TABLE nation(
         AND UNIQUE(name)
     )
 );
+
+CREATE TABLE capturation(
+    nation_name varchar(32) NOT NULL,
+    id_navire varchar(32) NOT NULL,
+    date_capture date DEFAULT current_date,
+    PRIMARY KEY(nation_name, id_navire),
+    FOREIGN KEY(nation_name) REFERENCES nation(name),
+    FOREIGN KEY(id_navire) REFERENCES navire(id_navire)
+);
+
+CREATE TABLE diplomatics_relation(
+    nation_name1 varchar(32) NOT NULL,
+    nation_name2 varchar(32) NOT NULL,
+    PRIMARY KEY(nation_name1, nation_name2),
+    FOREIGN KEY(nation_name1) REFERENCES nation(name),
+    FOREIGN KEY(nation_name2) REFERENCES nation(name)
+);
+
 CREATE TABLE port(
     name varchar(32) NOT NULL,
     category int NOT NULL,
+    nation_name varchar(32) NOT NULL,
     PRIMARY KEY (name),
+    FOREIGN KEY(nation_name) REFERENCES nation(name),
     CONSTRAINT CHK_Port CHECK(
         name NOT LIKE '%[^A-Z]%'
         AND category >= 1
@@ -33,6 +53,7 @@ CREATE TABLE port(
         AND UNIQUE(name)
     )
 );
+
 CREATE TABLE navire(
     id_navire SERIAL NOT NULL,
     type varchar(50) NOT NULL,
@@ -40,7 +61,9 @@ CREATE TABLE navire(
     passagers_max int NOT NULL DEFAULT 0,
     crew int NOT NULL,
     cale_max int NOT NULL DEFAULT 0,
+    nation_name varchar(32) NOT NULL,
     PRIMARY KEY(id_navire),
+    FOREIGN KEY(nation_name) REFERENCES nation(name),
     CONSTRAINT CHK_Navire CHECK (
         crew > 0
         AND passagers_max >= 0
@@ -51,12 +74,19 @@ CREATE TABLE navire(
         AND type NOT LIKE '%[A-Z]%'
     )
 );
+
 CREATE TABLE voyage (
     begin_date date NOT NULL DEFAULT current_date,
+    id_navire int NOT NULL,
     type varchar(50) NOT NULL,
     duration int NOT NULL,
     passagers int NOT NULL,
     cale int NOT NULL,
+    port_origin varchar(32) NOT NULL,
+    port_destination varchar(32) NOT NULL,
+    FOREIGN KEY(port_origin) REFERENCES port(name),
+    FOREIGN KEY(port_destination) REFERENCES port(name),
+    FOREIGN KEY(id_navire) REFERENCES navire(id_navire),
     PRIMARY KEY(begin_date) CONSTRAINT CHK_Voyage CHECK (
         duration > 0
         AND passagers >= 0
@@ -64,14 +94,16 @@ CREATE TABLE voyage (
         AND type NOT LIKE '%[A-Z]%'
     )
 );
+
 CREATE TABLE etape_transitoire(
-    date date NOT NULL DEFAULT current_date,
-    numero_etape int NOT NULL,
+    date_visite date NOT NULL DEFAULT current_date,
     ascending_passagers int NOT NULL,
     descending_passagers int NOT NULL,
-    PRIMARY KEY(date),
+    name_port varchar(32) NOT NULL,
+    FOREIGN KEY(name_port) REFERENCES port(name),
+    PRIMARY KEY(date_visite),
     CONSTRAINT CHK_Etape_Transitoire CHECK (
-        UNIQUE(numero_etape)
+        UNIQUE(date_visite)
         AND ascending_passagers >= 0
         AND descending_passagers >= 0
     )
@@ -91,6 +123,33 @@ CREATE TABLE produits(
     ),
     CONSTRAINT CHK_Name CHECK(name NOT LIKE '%[^A-Z]%')
 );
+
+CREATE TABLE Buy_Product(
+    product_id int NOT NULL,
+    date_buy date NOT NULL,
+    FOREIGN KEY(product_id) REFERENCES produits(product_id),
+    FOREIGN KEY(date_buy) REFERENCES etape_transitoire(date_visite),
+    PRIMARY KEY(product_id, date_buy)
+);
+
+CREATE TABLE Sell_Product(
+    product_id int NOT NULL,
+    date_buy date NOT NULL,
+    FOREIGN KEY(product_id) REFERENCES produits(product_id),
+    FOREIGN KEY(date_buy) REFERENCES etape_transitoire(date_visite),
+    PRIMARY KEY(product_id, date_buy)
+);
+
+CREATE TABLE cargaison(
+    begin_date date NOT NULL,
+    product_id int NOT NULL,
+    volume int NOT NULL,
+    PRIMARY KEY(begin_date, product_id),
+    FOREIGN KEY(begin_date) REFERENCES voyage(begin_date),
+    FOREIGN KEY(product_id) REFERENCES produits(product_id)
+);
+
+
 /* THIS IS NOT IN THE MODEL
  CREATE TABLE membership(
  name_port varchar(32) NOT NULL,
