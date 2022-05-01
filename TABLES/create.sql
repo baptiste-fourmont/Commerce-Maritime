@@ -13,6 +13,9 @@ DROP TABLE IF EXISTS Sell_Product;
 DROP TABLE IF EXISTS Buy_Product;
 DROP TABLE IF EXISTS navire cascade;
 
+CREATE TYPE type_relation AS ENUM ('alliés commerciaux', 'allié', 'neutre', 'guerre');
+CREATE TYPE type_voyage AS ENUM('international', 'continental');
+
 -- creation des tables
 CREATE TABLE nation(
     name varchar(50) NOT NULL,
@@ -25,9 +28,13 @@ CREATE TABLE nation(
 CREATE TABLE diplomatics_relation(
     nation_name1 varchar(32) NOT NULL,
     nation_name2 varchar(32) NOT NULL,
+    type_relation type_relation NOT NULL,
     PRIMARY KEY(nation_name1, nation_name2),
     FOREIGN KEY(nation_name1) REFERENCES nation(name),
-    FOREIGN KEY(nation_name2) REFERENCES nation(name)
+    FOREIGN KEY(nation_name2) REFERENCES nation(name),
+    CONSTRAINT CHK_Diplomatic CHECK(
+        nation_name1 != nation_name2
+    )
 );
 
 CREATE TABLE port(
@@ -77,7 +84,7 @@ CREATE TABLE capturation(
 CREATE TABLE voyage (
     begin_date date NOT NULL DEFAULT current_date,
     id_navire int NOT NULL,
-    type varchar(50) NOT NULL,
+    type type_voyage NOT NULL,
     duration int NOT NULL,
     passagers int NOT NULL,
     cale int NOT NULL,
@@ -91,7 +98,6 @@ CREATE TABLE voyage (
         duration > 0
         AND passagers >= 0
         AND cale >= 0
-        AND type NOT LIKE '%[A-Z]%'
     )
 );
 
