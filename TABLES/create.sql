@@ -1,35 +1,25 @@
 DROP DATABASE IF EXISTS projet_42;
 CREATE DATABASE projet_42;
 -- suppression des tables précédentes
-DROP TABLE IF EXISTS nation;
-DROP TABLE IF EXISTS navire;
-DROP TABLE IF EXISTS port;
-DROP TABLE IF EXISTS voyage;
-DROP TABLE IF EXISTS etape_transitoire;
-DROP TABLE IF EXISTS produits;
-DROP TABLE IF EXISTS membership;
-DROP TABLE IF EXISTS origin;
-DROP TABLE IF EXISTS destination;
-DROP TABLE IF EXISTS cargo;
-DROP TABLE IF EXISTS corresponding;
-DROP TABLE IF EXISTS diplomatics_relations;
+DROP TABLE IF EXISTS nation cascade;
+DROP TABLE IF EXISTS diplomatics_relation;
+DROP TABLE IF EXISTS capturation;
+DROP TABLE IF EXISTS port cascade;
+DROP TABLE IF EXISTS voyage cascade;
+DROP TABLE IF EXISTS etape_transitoire cascade;
+DROP TABLE IF EXISTS produits cascade;
+DROP TABLE IF EXISTS cargaison;
+DROP TABLE IF EXISTS Sell_Product;
+DROP TABLE IF EXISTS Buy_Product;
+DROP TABLE IF EXISTS navire cascade;
+
 -- creation des tables
 CREATE TABLE nation(
     name varchar(50) NOT NULL,
     PRIMARY KEY (name),
     CONSTRAINT CHK_Nation CHECK(
         name NOT LIKE '%[^A-Z]%'
-        AND UNIQUE(name)
     )
-);
-
-CREATE TABLE capturation(
-    nation_name varchar(32) NOT NULL,
-    id_navire varchar(32) NOT NULL,
-    date_capture date DEFAULT current_date,
-    PRIMARY KEY(nation_name, id_navire),
-    FOREIGN KEY(nation_name) REFERENCES nation(name),
-    FOREIGN KEY(id_navire) REFERENCES navire(id_navire)
 );
 
 CREATE TABLE diplomatics_relation(
@@ -50,7 +40,6 @@ CREATE TABLE port(
         name NOT LIKE '%[^A-Z]%'
         AND category >= 1
         AND category <= 5
-        AND UNIQUE(name)
     )
 );
 
@@ -75,6 +64,16 @@ CREATE TABLE navire(
     )
 );
 
+CREATE TABLE capturation(
+    nation_name varchar(32) NOT NULL,
+    id_navire SERIAL NOT NULL,
+    date_capture date DEFAULT current_date,
+    PRIMARY KEY(nation_name, id_navire),
+    FOREIGN KEY(nation_name) REFERENCES nation(name),
+    FOREIGN KEY(id_navire) REFERENCES navire(id_navire)
+);
+
+
 CREATE TABLE voyage (
     begin_date date NOT NULL DEFAULT current_date,
     id_navire int NOT NULL,
@@ -87,7 +86,8 @@ CREATE TABLE voyage (
     FOREIGN KEY(port_origin) REFERENCES port(name),
     FOREIGN KEY(port_destination) REFERENCES port(name),
     FOREIGN KEY(id_navire) REFERENCES navire(id_navire),
-    PRIMARY KEY(begin_date) CONSTRAINT CHK_Voyage CHECK (
+    PRIMARY KEY(begin_date), 
+    CONSTRAINT CHK_Voyage CHECK (
         duration > 0
         AND passagers >= 0
         AND cale >= 0
@@ -103,8 +103,7 @@ CREATE TABLE etape_transitoire(
     FOREIGN KEY(name_port) REFERENCES port(name),
     PRIMARY KEY(date_visite),
     CONSTRAINT CHK_Etape_Transitoire CHECK (
-        UNIQUE(date_visite)
-        AND ascending_passagers >= 0
+        ascending_passagers >= 0
         AND descending_passagers >= 0
     )
 );
