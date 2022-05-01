@@ -155,85 +155,63 @@ CREATE TABLE cargaison(
 );
 
 
-/* THIS IS NOT IN THE MODEL
- CREATE TABLE membership(
- name_port varchar(32) NOT NULL,
- name_nation varchar(32) NOT NULL,
- PRIMARY KEY(name_port, name_nation),
- FOREIGN KEY(name_port) REFERENCES port(name),
- FOREIGN KEY(name_nation) REFERENCES nation(name)
- );
- CREATE TABLE corresponding(
- id_navire SERIAL,
- begin_date date NOT NULL DEFAULT current_date,
- PRIMARY KEY(id_navire, begin_date),
- FOREIGN KEY(id_navire) REFERENCES navire(id_navire) ON DELETE CASCADE,
- FOREIGN KEY(begin_date) REFERENCES voyage(begin_date) ON UPDATE CASCADE
- );
- CREATE TABLE nationality(
- name_nation varchar(32) NOT NULL,
- id_navire SERIAL NOT NULL,
- PRIMARY KEY(id_navire, name_nation),
- FOREIGN KEY(id_navire) REFERENCES navire(id_navire) ON DELETE CASCADE,
- FOREIGN KEY(name_nation) REFERENCES nation(name) ON DELETE CASCADE
- );
- CREATE TABLE diplomatics_relations(
- nation1 varchar(32) NOT NULL,
- nation2 varchar(32) NOT NULL,
- PRIMARY KEY(nation1, nation2),
- CONSTRAINT CHK_nation1 FOREIGN KEY(nation1) REFERENCES nation(name) ON DELETE CASCADE,
- CONSTRAINT CHK_nation2 FOREIGN KEY(nation2) REFERENCES nation(name) ON DELETE CASCADE,
- CONSTRAINT CHK_nations CHECK(nation1 <> nation2)
- );
- CREATE TABLE cargo(
- cargaison_id SERIAL NOT NULL,
- id_navire SERIAL NOT NULL,
- product_id SERIAL NOT NULL,
- quantity int NOT NULL,
- volume int NOT NULL,
- cale_max int NOT NULL,
- type type_voyage NOT NULL,
- perishable boolean NOT NULL,
- cale int NOT NULL,
- PRIMARY KEY(cargaison_id),
- FOREIGN KEY(cale) REFERENCES voyage(cale) ON DELETE CASCADE,
- FOREIGN KEY(id_navire) REFERENCES navire(id_navire) ON DELETE CASCADE,
- FOREIGN KEY(product_id) REFERENCES produits(product_id) ON DELETE CASCADE,
- FOREIGN KEY(quantity) REFERENCES produits(quantity) ON UPDATE CASCADE,
- FOREIGN KEY(cale_max) REFERENCES navire(cale_max) ON UPDATE CASCADE,
- FOREIGN KEY(volume) REFERENCES produits(volume) ON UPDATE CASCADE,
- FOREIGN KEY(type_voyage) REFERENCES voyage(type) ON UPDATE CASCADE,
- FOREIGN KEY(perishable) REFERENCES produits(perishable) ON UPDATE CASCADE,
- CONSTRAINT CHK_Produits CHECK(
- (quantity * volume < cale_max)
- AND (
- perishable = false
- AND type = 'continental'
- )
- OR (
- perishable = true
- AND type = 'intercontinental'
- )
- )
- );
- CREATE TABLE origin(
- id_navire SERIAL NOT NULL,
- name varchar(32) NOT NULL,
- cale int NOT NULL,
- cale_max int NOT NULL,
- PRIMARY KEY(id_navire, name),
- FOREIGN KEY(id_navire) REFERENCES navire(id_navire) ON DELETE CASCADE,
- FOREIGN KEY(name) REFERENCES port(name) ON DELETE CASCADE,
- FOREIGN KEY(cale) REFERENCES voyage(cale) ON UPDATE CASCADE,
- FOREIGN KEY(cale_max) REFERENCES voyage(cale_max) ON UPDATE CASCADE
- );
- CREATE TABLE destination(
- id_navire SERIAL NOT NULL,
- name varchar(32) NOT NULL,
- cale int not NULL CHECK(cale = 0),
- PRIMARY KEY(id_navire, name),
- FOREIGN KEY(id_navire) REFERENCES navire(id_navire) ON DELETE CASCADE,
- FOREIGN KEY(name) REFERENCES port(name) ON DELETE CASCADE,
- FOREIGN KEY(cale) REFERENCES voyage(cale) ON DELETE CASCADE
- );
- */
+INSERT INTO nation VALUES ('Cyprus');
+INSERT INTO nation VALUES ('San Marino');
+INSERT INTO nation VALUES ('Liberia');
+INSERT INTO nation VALUES ('Western Sahara');
+INSERT INTO nation VALUES ('Lebanon');
+INSERT INTO nation VALUES ('Faroe Islands');
+INSERT INTO nation VALUES ('Malawi');
+INSERT INTO nation VALUES ('Ecuador');
+INSERT INTO nation VALUES ('Palau');
+INSERT INTO nation VALUES ('Maldives');
+INSERT INTO nation VALUES ('Mexico');
+INSERT INTO nation VALUES ('Algeria');
+INSERT INTO nation VALUES ('Turkmenistan');
+INSERT INTO nation VALUES ('Nepal');
+INSERT INTO nation VALUES ('Slovenia');
+
+
+INSERT INTO port VALUES ('Copenhagen', 1, 'Cyprus');
+INSERT INTO port VALUES ('San Marino', 2, 'San Marino');
+INSERT INTO port VALUES ('Libreville', 3, 'Liberia');
+INSERT INTO port VALUES ('Western Sahara', 4, 'Western Sahara');
+INSERT INTO port VALUES ('Beirut', 5, 'Lebanon');
+INSERT INTO port VALUES ('Torshavn', 1, 'Faroe Islands');
+INSERT INTO port VALUES ('Lilongwe', 2, 'Malawi');
+INSERT INTO port VALUES ('Quito', 3, 'Ecuador');
+INSERT INTO port VALUES ('Palikir', 4, 'Palau');
+INSERT INTO port VALUES ('Alofi', 5, 'Maldives');
+INSERT INTO port VALUES ('Mexico City', 1, 'Mexico');
+INSERT INTO port VALUES ('Algiers', 2, 'Algeria');
+INSERT INTO port VALUES ('Dushanbe', 3, 'Turkmenistan');
+INSERT INTO port VALUES ('Kathmandu', 4, 'Nepal');
+INSERT INTO port VALUES ('Ljubljana', 5, 'Slovenia');
+
+INSERT INTO produits VALUES (1, 'Coca-Cola', true, 19, 98, 3);
+INSERT INTO produits VALUES (2, 'Pepsi', true, 1, 57, 1);
+INSERT INTO produits VALUES (3, 'Fanta', true, 24, 1, 1);
+INSERT INTO produits VALUES (4, 'Sprite', false, 1, 20, 1);
+INSERT INTO produits VALUES (5, 'Coca-Cola Zero', false, 1, 1, 1);
+INSERT INTO produits VALUES (6, 'Pepsi Max', true, 10, 9, 1);
+INSERT INTO produits VALUES (7, 'Fanta Max', true, 1, 1, 10);
+INSERT INTO produits VALUES (8, 'Sprite Max', false, 4, 100, 1);
+INSERT INTO produits VALUES (9, 'Coca-Cola Light', true, 10, 1, 1);
+INSERT INTO produits VALUES (10, 'Pepsi Light', true, 5, 10, 1);
+INSERT INTO produits VALUES (11, 'Fanta Light', false, 10, 1, 1);
+INSERT INTO produits VALUES (12, 'Sprite Light', true, 3, 1, 10);
+INSERT INTO produits VALUES (13, 'Cheeseburger', true, 6, 10, 1);
+INSERT INTO produits VALUES (14, 'Fries', true, 10, 15, 1);
+INSERT INTO produits VALUES (15, 'Chips', false, 1, 32, 1);
+INSERT INTO produits VALUES (16, 'Candy', true, 1, 1, 10);
+
+/**
+Ca va bloquer nickel
+INSERT INTO diplomatics_relation VALUES ('Lebanon', 'Lebanon', 'alliés commerciaux');
+INSERT INTO diplomatics_relation VALUES ('Liberia', 'Cyprus', 'alliés commerciaux'); 
+**/
+
+INSERT INTO diplomatics_relation VALUES ('Cyprus', 'San Marino', 'allié');
+INSERT INTO diplomatics_relation VALUES ('Cyprus', 'Liberia', 'allié');
+INSERT INTO diplomatics_relation VALUES ('Cyprus', 'Western Sahara', 'guerre');
+INSERT INTO diplomatics_relation VALUES ('Lebanon', 'Lebanon', 'alliés commerciaux');
