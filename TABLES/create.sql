@@ -1,5 +1,5 @@
-DROP DATABASE IF EXISTS projet_42;
-CREATE DATABASE projet_42;
+create schema if not exists projet_42 ;
+SET search_path TO projet_42;
 -- suppression des tables précédentes
 DROP TABLE IF EXISTS nation cascade;
 DROP TABLE IF EXISTS diplomatics_relation;
@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS Buy_Product;
 DROP TABLE IF EXISTS navire cascade;
 
 CREATE TYPE type_relation AS ENUM ('alliés commerciaux', 'allié', 'neutre', 'guerre');
-CREATE TYPE type_voyage AS ENUM('international', 'continental');
+CREATE TYPE type_voyage AS ENUM('intercontinental', 'continental');
 
 -- creation des tables
 CREATE TABLE nation(
@@ -51,14 +51,13 @@ CREATE TABLE port(
 );
 
 CREATE TABLE navire(
-    id_navire SERIAL NOT NULL,
+    id_navire SERIAL PRIMARY KEY,
     type varchar(50) NOT NULL,
     category int NOT NULL,
     passagers_max int NOT NULL DEFAULT 0,
     crew int NOT NULL,
     cale_max int NOT NULL DEFAULT 0,
     nation_name varchar(32) NOT NULL,
-    PRIMARY KEY(id_navire),
     FOREIGN KEY(nation_name) REFERENCES nation(name),
     CONSTRAINT CHK_Navire CHECK (
         crew > 0
@@ -80,14 +79,12 @@ CREATE TABLE capturation(
     FOREIGN KEY(id_navire) REFERENCES navire(id_navire)
 );
 
-
 CREATE TABLE voyage (
     begin_date date NOT NULL DEFAULT current_date,
     id_navire int NOT NULL,
-    type type_voyage NOT NULL,
+    type_voyage type_voyage NOT NULL,
     duration int NOT NULL,
     passagers int NOT NULL,
-    cale int NOT NULL,
     port_origin varchar(32) NOT NULL,
     port_destination varchar(32) NOT NULL,
     FOREIGN KEY(port_origin) REFERENCES port(name),
@@ -97,7 +94,6 @@ CREATE TABLE voyage (
     CONSTRAINT CHK_Voyage CHECK (
         duration > 0
         AND passagers >= 0
-        AND cale >= 0
     )
 );
 
@@ -113,8 +109,10 @@ CREATE TABLE etape_transitoire(
         AND descending_passagers >= 0
     )
 );
+
+
 CREATE TABLE produits(
-    product_id int NOT NULL,
+    product_id SERIAL,
     name varchar(50) NOT NULL,
     perishable boolean NOT NULL,
     quantity int NOT NULL DEFAULT 1,
@@ -188,22 +186,22 @@ INSERT INTO port VALUES ('Dushanbe', 3, 'Turkmenistan');
 INSERT INTO port VALUES ('Kathmandu', 4, 'Nepal');
 INSERT INTO port VALUES ('Ljubljana', 5, 'Slovenia');
 
-INSERT INTO produits VALUES (1, 'Coca-Cola', true, 19, 98, 3);
-INSERT INTO produits VALUES (2, 'Pepsi', true, 1, 57, 1);
-INSERT INTO produits VALUES (3, 'Fanta', true, 24, 1, 1);
-INSERT INTO produits VALUES (4, 'Sprite', false, 1, 20, 1);
-INSERT INTO produits VALUES (5, 'Coca-Cola Zero', false, 1, 1, 1);
-INSERT INTO produits VALUES (6, 'Pepsi Max', true, 10, 9, 1);
-INSERT INTO produits VALUES (7, 'Fanta Max', true, 1, 1, 10);
-INSERT INTO produits VALUES (8, 'Sprite Max', false, 4, 100, 1);
-INSERT INTO produits VALUES (9, 'Coca-Cola Light', true, 10, 1, 1);
-INSERT INTO produits VALUES (10, 'Pepsi Light', true, 5, 10, 1);
-INSERT INTO produits VALUES (11, 'Fanta Light', false, 10, 1, 1);
-INSERT INTO produits VALUES (12, 'Sprite Light', true, 3, 1, 10);
-INSERT INTO produits VALUES (13, 'Cheeseburger', true, 6, 10, 1);
-INSERT INTO produits VALUES (14, 'Fries', true, 10, 15, 1);
-INSERT INTO produits VALUES (15, 'Chips', false, 1, 32, 1);
-INSERT INTO produits VALUES (16, 'Candy', true, 1, 1, 10);
+INSERT INTO produits VALUES (DEFAULT, 'Coca-Cola', true, 19, 98, 3);
+INSERT INTO produits VALUES (DEFAULT, 'Pepsi', true, 1, 57, 1);
+INSERT INTO produits VALUES (DEFAULT, 'Fanta', true, 24, 1, 1);
+INSERT INTO produits VALUES (DEFAULT, 'Sprite', false, 1, 20, 1);
+INSERT INTO produits VALUES (DEFAULT, 'Coca-Cola Zero', false, 1, 1, 1);
+INSERT INTO produits VALUES (DEFAULT, 'Pepsi Max', true, 10, 9, 1);
+INSERT INTO produits VALUES (DEFAULT, 'Fanta Max', true, 1, 1, 10);
+INSERT INTO produits VALUES (DEFAULT, 'Sprite Max', false, 4, 100, 1);
+INSERT INTO produits VALUES (DEFAULT, 'Coca-Cola Light', true, 10, 1, 1);
+INSERT INTO produits VALUES (DEFAULT, 'Pepsi Light', true, 5, 10, 1);
+INSERT INTO produits VALUES (DEFAULT, 'Fanta Light', false, 10, 1, 1);
+INSERT INTO produits VALUES (DEFAULT, 'Sprite Light', true, 3, 1, 10);
+INSERT INTO produits VALUES (DEFAULT, 'Cheeseburger', true, 6, 10, 1);
+INSERT INTO produits VALUES (DEFAULT, 'Fries', true, 10, 15, 1);
+INSERT INTO produits VALUES (DEFAULT, 'Chips', false, 1, 32, 1);
+INSERT INTO produits VALUES (DEFAULT, 'Candy', true, 1, 1, 10);
 
 /**
 Ca va bloquer nickel
@@ -216,31 +214,56 @@ INSERT INTO diplomatics_relation VALUES ('Cyprus', 'Liberia', 'allié');
 INSERT INTO diplomatics_relation VALUES ('Cyprus', 'Western Sahara', 'guerre');
 INSERT INTO diplomatics_relation VALUES ('Cyprus', 'Lebanon', 'guerre');
 
-INSERT INTO Buy_Product VALUES (1, '2020-01-01', 1);
-INSERT INTO Buy_Product VALUES (2, '2020-01-01', 1);
-INSERT INTO Buy_Product VALUES (3, '2020-01-01', 1);
-INSERT INTO Buy_Product VALUES (4, '2020-01-01', 1);
-INSERT INTO Buy_Product VALUES (5, '2020-01-01', 1);
-INSERT INTO Buy_Product VALUES (6, '2020-01-01', 1);
-INSERT INTO Buy_Product VALUES (7, '2020-01-01', 1);
-INSERT INTO Buy_Product VALUES (8, '2020-01-01', 1);
-INSERT INTO Buy_Product VALUES (9, '2020-01-01', 1);
 
-INSERT INTO Sell_Product VALUES (1, '2020-01-01', 1);
-INSERT INTO Sell_Product VALUES (2, '2020-01-01', 1);
-INSERT INTO Sell_Product VALUES (3, '2020-01-01', 1);
-INSERT INTO Sell_Product VALUES (4, '2018-01-01', 1);
-INSERT INTO Sell_Product VALUES (5, '2022-01-01', 1);
-INSERT INTO Sell_Product VALUES (6, '2021-01-01', 1);
-INSERT INTO Sell_Product VALUES (7, '1990-01-01', 1);
-INSERT INTO Sell_Product VALUES (8, '2019-01-01', 1);
-INSERT INTO Sell_Product VALUES (9, '2017-01-01', 1);
+INSERT INTO navire VALUES(DEFAULT, 'Caravelle', 1, 10, 5, 10, 'Cyprus');
+INSERT INTO navire VALUES(DEFAULT, 'Flûte', 2, 10, 5, 10, 'Lebanon');
+INSERT INTO navire VALUES(DEFAULT, 'Gallion', 3, 10, 5, 10, 'Palau');
+INSERT INTO navire VALUES(DEFAULT, 'Caravelle', 4, 10, 5, 10, 'Cyprus');
+INSERT INTO navire VALUES(DEFAULT, 'Gallion', 5, 10, 5, 10, 'Nepal');
+INSERT INTO navire VALUES(DEFAULT, 'Caravelle', 1, 10, 5, 10, 'Slovenia');
+INSERT INTO navire VALUES(DEFAULT, 'Caravelle', 2, 10, 5, 10, 'Mexico');
 
 
-INSERT INTO navire VALUES('Caravelle', 1, 10, 5, 10, 'Cyprus');
-INSERT INTO navire VALUES('Caravelle', 2, 10, 5, 10, 'Lebanon');
-INSERT INTO navire VALUES('Caravelle', 3, 10, 5, 10, 'Palau');
-INSERT INTO navire VALUES('Caravelle', 4, 10, 5, 10, 'Cyprus');
-INSERT INTO navire VALUES('Caravelle', 5, 10, 5, 10, 'Nepal');
-INSERT INTO navire VALUES('Caravelle', 6, 10, 5, 10, 'Slovenia');
-INSERT INTO navire VALUES('Caravelle', 5, 10, 5, 10, 'Mexico');
+INSERT INTO voyage VALUES ('2010-01-01', 1, 'continental', 30, 10, 'Copenhagen', 'Beirut');
+INSERT INTO voyage VALUES ('2016-02-02', 2, 'intercontinental', 30, 10, 'Libreville', 'Quito');
+INSERT INTO voyage VALUES ('2017-03-03', 3, 'continental', 30, 10, 'Palikir', 'Algiers');
+INSERT INTO voyage VALUES ('2018-01-01', 4, 'intercontinental', 30, 10, 'Copenhagen', 'Copenhagen');
+INSERT INTO voyage VALUES ('2019-01-01', 5, 'continental', 10, 10, 'Kathmandu', 'Mexico City');
+INSERT INTO voyage VALUES ('2020-01-01', 6, 'intercontinental', 30, 10, 'Ljubljana', 'Copenhagen');
+INSERT INTO voyage VALUES ('2021-01-01', 6, 'continental', 30, 10, 'Mexico City', 'Mexico City');
+
+
+INSERT INTO etape_transitoire VALUES('2020-01-01', 1, 1, 'Beirut');
+INSERT INTO etape_transitoire VALUES('2020-01-02', 2, 1, 'Quito');
+INSERT INTO etape_transitoire VALUES('2020-01-03', 3, 1, 'Alofi');
+INSERT INTO etape_transitoire VALUES('2020-01-04', 4, 1, 'Ljubljana');
+INSERT INTO etape_transitoire VALUES('2020-01-05', 5, 1, 'Mexico City');
+INSERT INTO etape_transitoire VALUES('2020-01-06', 6, 1, 'Mexico City');
+INSERT INTO etape_transitoire VALUES('2020-01-07', 6, 1, 'Torshavn');
+INSERT INTO etape_transitoire VALUES('2020-01-08', 6, 1, 'Western Sahara');
+INSERT INTO etape_transitoire VALUES('2020-01-09', 6, 1, 'Dushanbe');
+
+INSERT INTO capturation VALUES('Cyprus', 1, '2020-01-01');
+INSERT INTO capturation VALUES('Mexico', 1, '2020-02-02');
+
+INSERT INTO Buy_Product VALUES (1, '2020-01-01');
+INSERT INTO Buy_Product VALUES (2, '2020-01-02');
+INSERT INTO Buy_Product VALUES (3, '2020-01-03');
+INSERT INTO Buy_Product VALUES (4, '2020-01-04');
+INSERT INTO Buy_Product VALUES (5, '2020-01-05');
+INSERT INTO Buy_Product VALUES (6, '2020-01-06');
+INSERT INTO Buy_Product VALUES (7, '2020-01-07');
+INSERT INTO Buy_Product VALUES (8, '2020-01-08');
+INSERT INTO Buy_Product VALUES (9, '2020-01-09');
+
+INSERT INTO Sell_Product VALUES (1, '2020-01-01');
+INSERT INTO Sell_Product VALUES (2, '2020-01-02');
+INSERT INTO Sell_Product VALUES (3, '2020-01-03');
+INSERT INTO Sell_Product VALUES (4, '2020-01-04');
+INSERT INTO Sell_Product VALUES (5, '2020-01-05');
+INSERT INTO Sell_Product VALUES (6, '2020-01-06');
+INSERT INTO Sell_Product VALUES (7, '2020-01-07');
+INSERT INTO Sell_Product VALUES (8, '2020-01-08');
+INSERT INTO Sell_Product VALUES (9, '2020-01-09');
+
+
