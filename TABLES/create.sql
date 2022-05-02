@@ -72,9 +72,11 @@ CREATE TABLE navire(
 
 CREATE TABLE capturation(
     nation_name varchar(32) NOT NULL,
-    id_navire SERIAL NOT NULL,
+    id_navire int NOT NULL,
     date_capture date DEFAULT current_date,
     PRIMARY KEY(nation_name, id_navire),
+    -- un bateau ne peut pas se refaire capture le même jour
+    UNIQUE(date_capture, id_navire),
     FOREIGN KEY(nation_name) REFERENCES nation(name),
     FOREIGN KEY(id_navire) REFERENCES navire(id_navire)
 );
@@ -91,6 +93,8 @@ CREATE TABLE voyage (
     FOREIGN KEY(port_destination) REFERENCES port(name),
     FOREIGN KEY(id_navire) REFERENCES navire(id_navire),
     PRIMARY KEY(begin_date), 
+    -- un bateau ne peut pas voyager le même jour
+    UNIQUE(begin_date, id_navire),
     CONSTRAINT CHK_Voyage CHECK (
         duration > 0
         AND passagers >= 0
@@ -244,7 +248,7 @@ INSERT INTO etape_transitoire VALUES('2020-01-08', 6, 1, 'Western Sahara');
 INSERT INTO etape_transitoire VALUES('2020-01-09', 6, 1, 'Dushanbe');
 
 INSERT INTO capturation VALUES('Cyprus', 1, '2020-01-01');
-INSERT INTO capturation VALUES('Mexico', 1, '2020-02-02');
+INSERT INTO capturation VALUES('Mexico', 1, '2020-01-01');
 
 INSERT INTO Buy_Product VALUES (1, '2020-01-01');
 INSERT INTO Buy_Product VALUES (2, '2020-01-02');
