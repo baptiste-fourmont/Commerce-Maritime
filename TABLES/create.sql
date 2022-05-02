@@ -214,4 +214,33 @@ INSERT INTO diplomatics_relation VALUES ('Liberia', 'Cyprus', 'alliés commercia
 INSERT INTO diplomatics_relation VALUES ('Cyprus', 'San Marino', 'allié');
 INSERT INTO diplomatics_relation VALUES ('Cyprus', 'Liberia', 'allié');
 INSERT INTO diplomatics_relation VALUES ('Cyprus', 'Western Sahara', 'guerre');
-INSERT INTO diplomatics_relation VALUES ('Lebanon', 'Lebanon', 'alliés commerciaux');
+INSERT INTO diplomatics_relation VALUES ('Cyprus', 'Lebanon', 'guerre');
+
+INSERT INTO Buy_Product VALUES (1, '2020-01-01', 1);
+INSERT INTO Buy_Product VALUES (2, '2020-01-01', 1);
+INSERT INTO Buy_Product VALUES (3, '2020-01-01', 1);
+INSERT INTO Buy_Product VALUES (4, '2020-01-01', 1);
+INSERT INTO Buy_Product VALUES (5, '2020-01-01', 1);
+INSERT INTO Buy_Product VALUES (6, '2020-01-01', 1);
+INSERT INTO Buy_Product VALUES (7, '2020-01-01', 1);
+INSERT INTO Buy_Product VALUES (8, '2020-01-01', 1);
+INSERT INTO Buy_Product VALUES (9, '2020-01-01', 1);
+
+INSERT INTO Sell_Product VALUES (1, '2020-01-01', 1);
+INSERT INTO Sell_Product VALUES (2, '2020-01-01', 1);
+INSERT INTO Sell_Product VALUES (3, '2020-01-01', 1);
+INSERT INTO Sell_Product VALUES (4, '2018-01-01', 1);
+INSERT INTO Sell_Product VALUES (5, '2022-01-01', 1);
+INSERT INTO Sell_Product VALUES (6, '2021-01-01', 1);
+INSERT INTO Sell_Product VALUES (7, '1990-01-01', 1);
+INSERT INTO Sell_Product VALUES (8, '2019-01-01', 1);
+INSERT INTO Sell_Product VALUES (9, '2017-01-01', 1);
+
+
+INSERT INTO navire VALUES('Caravelle', 1, 10, 5, 10, 'Cyprus');
+INSERT INTO navire VALUES('Caravelle', 2, 10, 5, 10, 'Lebanon');
+INSERT INTO navire VALUES('Caravelle', 3, 10, 5, 10, 'Palau');
+INSERT INTO navire VALUES('Caravelle', 4, 10, 5, 10, 'Cyprus');
+INSERT INTO navire VALUES('Caravelle', 5, 10, 5, 10, 'Nepal');
+INSERT INTO navire VALUES('Caravelle', 6, 10, 5, 10, 'Slovenia');
+INSERT INTO navire VALUES('Caravelle', 5, 10, 5, 10, 'Mexico');
