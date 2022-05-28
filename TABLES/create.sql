@@ -42,6 +42,7 @@ CREATE TABLE diplomatics_relation(
     FOREIGN KEY(nation_name1) REFERENCES nation(name),
     FOREIGN KEY(nation_name2) REFERENCES nation(name),
 
+    UNIQUE(nation_name1, nation_name2, type_relation),
     CONSTRAINT CHK_Diplomatic CHECK(
         nation_name1 != nation_name2
     )
@@ -53,6 +54,7 @@ CREATE TABLE port(
     nation_name varchar(32) NOT NULL,
     PRIMARY KEY (name),
     FOREIGN KEY(nation_name) REFERENCES nation(name),
+    UNIQUE(nation_name, name),
     CONSTRAINT CHK_Port CHECK(
         name NOT LIKE '%[^A-Z]%'
         AND category >= 1
@@ -212,3 +214,4 @@ CREATE TABLE cargaison(
 \COPY Buy_Product (product_id, id_etape, quantity) FROM CSV/buy_product.dat WITH (FORMAT CSV)
 \COPY Sell_Product (product_id, id_etape, quantity) FROM CSV/sell_product.dat WITH (FORMAT CSV)
 \COPY cargaison FROM CSV/cargaison.dat WITH (FORMAT CSV)
+
