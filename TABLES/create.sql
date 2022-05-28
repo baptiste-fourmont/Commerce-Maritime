@@ -21,7 +21,7 @@ DROP TYPE IF EXISTS type_pays;
 CREATE TYPE type_relation AS ENUM ('alliés commerciaux', 'allié', 'neutre', 'guerre');
 CREATE TYPE type_voyage AS ENUM('intercontinental', 'continental');
 CREATE TYPE type_navire as ENUM ('Flute', 'Galion', 'Gabare', 'Caravelle') ;
-CREATE TYPE type_pays as ENUM ('Europe', 'Amérique', 'Afrique', 'Asie', 'Océanie' ) ;
+CREATE TYPE type_pays as ENUM ('Europe', 'Amérique', 'Afrique', 'Asie', 'Océanie', 'Antarctique' ) ;
 
 
 -- creation des tables
@@ -41,6 +41,7 @@ CREATE TABLE diplomatics_relation(
     PRIMARY KEY(nation_name1, nation_name2),
     FOREIGN KEY(nation_name1) REFERENCES nation(name),
     FOREIGN KEY(nation_name2) REFERENCES nation(name),
+
     CONSTRAINT CHK_Diplomatic CHECK(
         nation_name1 != nation_name2
     )
@@ -73,7 +74,7 @@ CREATE TABLE navire(
         AND passagers_max >= 0
         AND category >= 1
         AND category <= 5
-        AND passagers_max > crew
+        AND passagers_max >= crew
         AND cale_max >= 0
     )
 );
@@ -174,6 +175,12 @@ CREATE TABLE Sell_Product(
     product_id int NOT NULL,
     id_etape int NOT NULL,
     quantity int NOT NULL,
+
+    CONSTRAINT CHK_produits CHECK (
+        product_id > 0
+        AND id_etape > 0
+        AND quantity > 0
+    ),
     
     FOREIGN KEY(product_id) REFERENCES produit(product_id),
     FOREIGN KEY(id_etape) REFERENCES etape_transitoire(id_etape),
@@ -184,6 +191,10 @@ CREATE TABLE cargaison(
     id_voyage int NOT NULL,
     product_id int NOT NULL,
     quantity int NOT NULL,
+
+      CONSTRAINT CHK_produits CHECK (
+        quantity > 0
+    ),
 
     PRIMARY KEY(id_voyage, product_id),
     FOREIGN KEY(id_voyage) REFERENCES voyage(id_voyage),
