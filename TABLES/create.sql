@@ -183,6 +183,7 @@ CREATE TABLE cargaison(
 
 \COPY nation FROM CSV/nation.dat WITH (FORMAT CSV)
 \COPY produit ( name, perishable, shelf_life, value_per_kilo, volume) FROM CSV/produit.dat WITH (FORMAT CSV)
+\COPY port ( name, category, nation_name) FROM CSV/port.dat WITH (FORMAT CSV)
 
 
 -- INSERT INTO nation VALUES ('Cyprus');
