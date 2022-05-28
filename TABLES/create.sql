@@ -16,16 +16,18 @@ DROP TABLE IF EXISTS navire cascade;
 DROP TYPE IF EXISTS type_relation;
 DROP TYPE IF EXISTS type_voyage;
 DROP TYPE IF EXISTS type_navire;
-
+DROP TYPE IF EXISTS type_pays;
 
 CREATE TYPE type_relation AS ENUM ('alliés commerciaux', 'allié', 'neutre', 'guerre');
 CREATE TYPE type_voyage AS ENUM('intercontinental', 'continental');
 CREATE TYPE type_navire as ENUM ('Flute', 'Galion', 'Gabare', 'Caravelle') ;
+CREATE TYPE type_pays as ENUM ('Europe', 'Amérique', 'Afrique', 'Asie', 'Océanie' ) ;
 
 
 -- creation des tables
 CREATE TABLE nation(
     name varchar(32) NOT NULL,
+    name_continent type_pays NOT NULL,
     PRIMARY KEY (name),
     CONSTRAINT CHK_Nation CHECK(
         name NOT LIKE '%[^A-Z]%'
@@ -91,6 +93,7 @@ CREATE TABLE voyage (
     id_voyage SERIAL NOT NULL,
     id_navire int NOT NULL,
     type_voyage type_voyage NOT NULL,
+    distance int NOT NULL,
     passagers int NOT NULL,
     port_origin varchar(32) NOT NULL,
     port_destination varchar(32) NOT NULL,
@@ -105,7 +108,8 @@ CREATE TABLE voyage (
 
     CONSTRAINT CHK_Voyage CHECK(
         passagers >= 0
-        AND date_arrivee > date_depart
+        AND distance >= 0
+        AND date_arrivee >= date_depart
         AND type_voyage IN ('intercontinental', 'continental')
     )
     -- un bateau ne peut pas voyager le même jour
@@ -185,35 +189,10 @@ CREATE TABLE cargaison(
 \COPY produit ( name, perishable, shelf_life, value_per_kilo, volume) FROM CSV/produit.dat WITH (FORMAT CSV)
 \COPY port ( name, category, nation_name) FROM CSV/port.dat WITH (FORMAT CSV)
 \COPY diplomatics_relation FROM CSV/diplomatics_relation.dat WITH (FORMAT CSV)
-\COPY capturation FROM CSV/capturation.dat WITH (FORMAT CSV)
 \COPY navire (type, category, passagers_max, crew, cale_max, nation_name) FROM CSV/navire.dat WITH (FORMAT CSV)
-
-
--- /**
--- Ca va bloquer nickel
--- INSERT INTO diplomatics_relation VALUES ('Lebanon', 'Lebanon', 'alliés commerciaux');
--- INSERT INTO diplomatics_relation VALUES ('Liberia', 'Cyprus', 'alliés commerciaux'); 
--- **/
-
-
--- INSERT INTO voyage VALUES ('2010-01-01', 1, 'continental', 30, 10, 'Copenhagen', 'Beirut');
--- INSERT INTO voyage VALUES ('2016-02-02', 2, 'intercontinental', 30, 10, 'Libreville', 'Quito');
--- INSERT INTO voyage VALUES ('2017-03-03', 3, 'continental', 30, 10, 'Palikir', 'Algiers');
--- INSERT INTO voyage VALUES ('2018-01-01', 4, 'intercontinental', 30, 10, 'Copenhagen', 'Copenhagen');
--- INSERT INTO voyage VALUES ('2019-01-01', 5, 'continental', 10, 10, 'Kathmandu', 'Mexico City');
--- INSERT INTO voyage VALUES ('2020-01-01', 6, 'intercontinental', 30, 10, 'Ljubljana', 'Copenhagen');
--- INSERT INTO voyage VALUES ('2021-01-01', 6, 'continental', 30, 10, 'Mexico City', 'Mexico City');
-
-
--- INSERT INTO etape_transitoire VALUES('2020-01-01', 1, 1, 'Beirut');
--- INSERT INTO etape_transitoire VALUES('2020-01-02', 2, 1, 'Quito');
--- INSERT INTO etape_transitoire VALUES('2020-01-03', 3, 1, 'Alofi');
--- INSERT INTO etape_transitoire VALUES('2020-01-04', 4, 1, 'Ljubljana');
--- INSERT INTO etape_transitoire VALUES('2020-01-05', 5, 1, 'Mexico City');
--- INSERT INTO etape_transitoire VALUES('2020-01-06', 6, 1, 'Mexico City');
--- INSERT INTO etape_transitoire VALUES('2020-01-07', 6, 1, 'Torshavn');
--- INSERT INTO etape_transitoire VALUES('2020-01-08', 6, 1, 'Western Sahara');
--- INSERT INTO etape_transitoire VALUES('2020-01-09', 6, 1, 'Dushanbe');
+\COPY capturation FROM CSV/capturation.dat WITH (FORMAT CSV)
+\COPY voyage (id_navire, type_voyage, distance, passagers, port_origin, port_destination, date_depart, date_arrivee) FROM CSV/voyage.dat WITH (FORMAT CSV)
+\COPY etape_transitoire (ascending_passagers, descending_passagers, name_port, id_voyage, date_passage) FROM CSV/etape_transitoire.dat WITH (FORMAT CSV)
 
 
 -- INSERT INTO Buy_Product VALUES (1, '2020-01-01');
