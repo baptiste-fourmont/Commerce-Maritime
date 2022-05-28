@@ -1,9 +1,8 @@
-product_id,id_etape,quantity
-product_id,id_etape,quantity
-product_id,id_etape,quantity
-product_id,id_etape,quantity
-product_id,id_etape,quantity
-product_id,id_etape,quantity
-product_id,id_etape,quantity
-product_id,id_etape,quantity
-product_id,id_etape,quantity
+1,1,2
+2,2,3
+3,3,4
+4,4,3
+5,2,1
+6,3,1
+7,2,5
+8,1,6

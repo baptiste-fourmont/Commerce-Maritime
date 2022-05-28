@@ -162,7 +162,12 @@ CREATE TABLE Buy_Product(
 
     FOREIGN KEY(product_id) REFERENCES produit(product_id),
     FOREIGN KEY(id_etape) REFERENCES etape_transitoire(id_etape),
-    PRIMARY KEY(product_id, id_etape)
+    PRIMARY KEY(product_id, id_etape),
+    CONSTRAINT CHK_produits CHECK (
+        product_id > 0
+        AND id_etape > 0
+        AND quantity > 0
+    )
 );
 
 CREATE TABLE Sell_Product(
@@ -195,6 +200,7 @@ CREATE TABLE cargaison(
 \COPY etape_transitoire (ascending_passagers, descending_passagers, name_port, id_voyage, date_passage) FROM CSV/etape_transitoire.dat WITH (FORMAT CSV)
 \COPY Buy_Product (product_id, id_etape, quantity) FROM CSV/buy_product.dat WITH (FORMAT CSV)
 \COPY Sell_Product (product_id, id_etape, quantity) FROM CSV/sell_product.dat WITH (FORMAT CSV)
+\COPY cargaison FROM CSV/cargaison.dat WITH (FORMAT CSV)
 
 
 -- INSERT INTO Buy_Product VALUES (1, '2020-01-01');
