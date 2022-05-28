@@ -20,7 +20,7 @@ DROP TYPE IF EXISTS type_navire;
 
 CREATE TYPE type_relation AS ENUM ('alliés commerciaux', 'allié', 'neutre', 'guerre');
 CREATE TYPE type_voyage AS ENUM('intercontinental', 'continental');
-CREATE TYPE type_navire as ENUM ('Flute', 'Galion', 'Gabare') ;
+CREATE TYPE type_navire as ENUM ('Flute', 'Galion', 'Gabare', 'Caravelle') ;
 
 
 -- creation des tables
@@ -184,77 +184,16 @@ CREATE TABLE cargaison(
 \COPY nation FROM CSV/nation.dat WITH (FORMAT CSV)
 \COPY produit ( name, perishable, shelf_life, value_per_kilo, volume) FROM CSV/produit.dat WITH (FORMAT CSV)
 \COPY port ( name, category, nation_name) FROM CSV/port.dat WITH (FORMAT CSV)
+\COPY diplomatics_relation FROM CSV/diplomatics_relation.dat WITH (FORMAT CSV)
+\COPY capturation FROM CSV/capturation.dat WITH (FORMAT CSV)
+\COPY navire (type, category, passagers_max, crew, cale_max, nation_name) FROM CSV/navire.dat WITH (FORMAT CSV)
 
-
--- INSERT INTO nation VALUES ('Cyprus');
--- INSERT INTO nation VALUES ('San Marino');
--- INSERT INTO nation VALUES ('Liberia');
--- INSERT INTO nation VALUES ('Western Sahara');
--- INSERT INTO nation VALUES ('Lebanon');
--- INSERT INTO nation VALUES ('Faroe Islands');
--- INSERT INTO nation VALUES ('Malawi');
--- INSERT INTO nation VALUES ('Ecuador');
--- INSERT INTO nation VALUES ('Palau');
--- INSERT INTO nation VALUES ('Maldives');
--- INSERT INTO nation VALUES ('Mexico');
--- INSERT INTO nation VALUES ('Algeria');
--- INSERT INTO nation VALUES ('Turkmenistan');
--- INSERT INTO nation VALUES ('Nepal');
--- INSERT INTO nation VALUES ('Slovenia');
-
-
--- INSERT INTO port VALUES ('Copenhagen', 1, 'Cyprus');
--- INSERT INTO port VALUES ('San Marino', 2, 'San Marino');
--- INSERT INTO port VALUES ('Libreville', 3, 'Liberia');
--- INSERT INTO port VALUES ('Western Sahara', 4, 'Western Sahara');
--- INSERT INTO port VALUES ('Beirut', 5, 'Lebanon');
--- INSERT INTO port VALUES ('Torshavn', 1, 'Faroe Islands');
--- INSERT INTO port VALUES ('Lilongwe', 2, 'Malawi');
--- INSERT INTO port VALUES ('Quito', 3, 'Ecuador');
--- INSERT INTO port VALUES ('Palikir', 4, 'Palau');
--- INSERT INTO port VALUES ('Alofi', 5, 'Maldives');
--- INSERT INTO port VALUES ('Mexico City', 1, 'Mexico');
--- INSERT INTO port VALUES ('Algiers', 2, 'Algeria');
--- INSERT INTO port VALUES ('Dushanbe', 3, 'Turkmenistan');
--- INSERT INTO port VALUES ('Kathmandu', 4, 'Nepal');
--- INSERT INTO port VALUES ('Ljubljana', 5, 'Slovenia');
-
--- INSERT INTO produit VALUES (DEFAULT, 'Coca-Cola', true, 19, 98, 3);
--- INSERT INTO produit VALUES (DEFAULT, 'Pepsi', true, 1, 57, 1);
--- INSERT INTO produit VALUES (DEFAULT, 'Fanta', true, 24, 1, 1);
--- INSERT INTO produit VALUES (DEFAULT, 'Sprite', false, 1, 20, 1);
--- INSERT INTO produit VALUES (DEFAULT, 'Coca-Cola Zero', false, 1, 1, 1);
--- INSERT INTO produit VALUES (DEFAULT, 'Pepsi Max', true, 10, 9, 1);
--- INSERT INTO produit VALUES (DEFAULT, 'Fanta Max', true, 1, 1, 10);
--- INSERT INTO produit VALUES (DEFAULT, 'Sprite Max', false, 4, 100, 1);
--- INSERT INTO produit VALUES (DEFAULT, 'Coca-Cola Light', true, 10, 1, 1);
--- INSERT INTO produit VALUES (DEFAULT, 'Pepsi Light', true, 5, 10, 1);
--- INSERT INTO produit VALUES (DEFAULT, 'Fanta Light', false, 10, 1, 1);
--- INSERT INTO produit VALUES (DEFAULT, 'Sprite Light', true, 3, 1, 10);
--- INSERT INTO produit VALUES (DEFAULT, 'Cheeseburger', true, 6, 10, 1);
--- INSERT INTO produit VALUES (DEFAULT, 'Fries', true, 10, 15, 1);
--- INSERT INTO produit VALUES (DEFAULT, 'Chips', false, 1, 32, 1);
--- INSERT INTO produit VALUES (DEFAULT, 'Candy', true, 1, 1, 10);
 
 -- /**
 -- Ca va bloquer nickel
 -- INSERT INTO diplomatics_relation VALUES ('Lebanon', 'Lebanon', 'alliés commerciaux');
 -- INSERT INTO diplomatics_relation VALUES ('Liberia', 'Cyprus', 'alliés commerciaux'); 
 -- **/
-
--- INSERT INTO diplomatics_relation VALUES ('Cyprus', 'San Marino', 'allié');
--- INSERT INTO diplomatics_relation VALUES ('Cyprus', 'Liberia', 'allié');
--- INSERT INTO diplomatics_relation VALUES ('Cyprus', 'Western Sahara', 'guerre');
--- INSERT INTO diplomatics_relation VALUES ('Cyprus', 'Lebanon', 'guerre');
-
-
--- INSERT INTO navire VALUES(DEFAULT, 'Caravelle', 1, 10, 5, 10, 'Cyprus');
--- INSERT INTO navire VALUES(DEFAULT, 'Flûte', 2, 10, 5, 10, 'Lebanon');
--- INSERT INTO navire VALUES(DEFAULT, 'Gallion', 3, 10, 5, 10, 'Palau');
--- INSERT INTO navire VALUES(DEFAULT, 'Caravelle', 4, 10, 5, 10, 'Cyprus');
--- INSERT INTO navire VALUES(DEFAULT, 'Gallion', 5, 10, 5, 10, 'Nepal');
--- INSERT INTO navire VALUES(DEFAULT, 'Caravelle', 1, 10, 5, 10, 'Slovenia');
--- INSERT INTO navire VALUES(DEFAULT, 'Caravelle', 2, 10, 5, 10, 'Mexico');
 
 
 -- INSERT INTO voyage VALUES ('2010-01-01', 1, 'continental', 30, 10, 'Copenhagen', 'Beirut');
@@ -276,8 +215,6 @@ CREATE TABLE cargaison(
 -- INSERT INTO etape_transitoire VALUES('2020-01-08', 6, 1, 'Western Sahara');
 -- INSERT INTO etape_transitoire VALUES('2020-01-09', 6, 1, 'Dushanbe');
 
--- INSERT INTO capturation VALUES('Cyprus', 1, '2020-01-01');
--- INSERT INTO capturation VALUES('Mexico', 1, '2020-01-01');
 
 -- INSERT INTO Buy_Product VALUES (1, '2020-01-01');
 -- INSERT INTO Buy_Product VALUES (2, '2020-01-02');
