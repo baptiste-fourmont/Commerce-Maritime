@@ -212,25 +212,3 @@ CREATE TABLE cargaison(
 \COPY Buy_Product (product_id, id_etape, quantity) FROM CSV/buy_product.dat WITH (FORMAT CSV)
 \COPY Sell_Product (product_id, id_etape, quantity) FROM CSV/sell_product.dat WITH (FORMAT CSV)
 \COPY cargaison FROM CSV/cargaison.dat WITH (FORMAT CSV)
-
-
--- INSERT INTO Buy_Product VALUES (1, '2020-01-01');
--- INSERT INTO Buy_Product VALUES (2, '2020-01-02');
--- INSERT INTO Buy_Product VALUES (3, '2020-01-03');
--- INSERT INTO Buy_Product VALUES (4, '2020-01-04');
--- INSERT INTO Buy_Product VALUES (5, '2020-01-05');
--- INSERT INTO Buy_Product VALUES (6, '2020-01-06');
--- INSERT INTO Buy_Product VALUES (7, '2020-01-07');
--- INSERT INTO Buy_Product VALUES (8, '2020-01-08');
--- INSERT INTO Buy_Product VALUES (9, '2020-01-09');
-
--- INSERT INTO Sell_Product VALUES (1, '2020-01-01');
--- INSERT INTO Sell_Product VALUES (2, '2020-01-02');
--- INSERT INTO Sell_Product VALUES (3, '2020-01-03');
--- INSERT INTO Sell_Product VALUES (4, '2020-01-04');
--- INSERT INTO Sell_Product VALUES (5, '2020-01-05');
--- INSERT INTO Sell_Product VALUES (6, '2020-01-06');
--- INSERT INTO Sell_Product VALUES (7, '2020-01-07');
--- INSERT INTO Sell_Product VALUES (8, '2020-01-08');
--- INSERT INTO Sell_Product VALUES (9, '2020-01-09');
-
