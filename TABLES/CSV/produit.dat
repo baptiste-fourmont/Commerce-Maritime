@@ -1,0 +1,16 @@
+Coca-Cola, true, 19, 98, 3
+Pepsi, true, 1, 57, 1
+Fanta, true, 24, 1, 1
+Sprite, false, 1, 20, 1
+Coca-Cola Zero, false, 1, 1, 1
+Pepsi Max, true, 10, 9, 1
+Fanta Max, true, 1, 1, 10
+Sprite Max, false, 4, 100, 1
+Coca-Cola Light, true, 10, 1, 1
+Pepsi Light, true, 5, 10, 1
+Fanta Light, false, 10, 1, 1
+Sprite Light, true, 3, 1, 10
+Cheeseburger, true, 6, 10, 1
+Fries, true, 10, 15, 1
+Chips, false, 1, 32, 1
+Candy, true, 1, 1, 10

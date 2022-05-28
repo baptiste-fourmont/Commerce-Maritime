@@ -15,15 +15,16 @@ DROP TABLE IF EXISTS Buy_Product;
 DROP TABLE IF EXISTS navire cascade;
 DROP TYPE IF EXISTS type_relation;
 DROP TYPE IF EXISTS type_voyage;
+DROP TYPE IF EXISTS type_navire;
 
 
 CREATE TYPE type_relation AS ENUM ('alliés commerciaux', 'allié', 'neutre', 'guerre');
 CREATE TYPE type_voyage AS ENUM('intercontinental', 'continental');
-
+CREATE TYPE type_navire as ENUM ('Flute', 'Galion', 'Gabare') ;
 
 -- creation des tables
 CREATE TABLE nation(
-    name varchar(50) NOT NULL,
+    name varchar(32) NOT NULL,
     PRIMARY KEY (name),
     CONSTRAINT CHK_Nation CHECK(
         name NOT LIKE '%[^A-Z]%'
@@ -57,7 +58,7 @@ CREATE TABLE port(
 
 CREATE TABLE navire(
     id_navire SERIAL PRIMARY KEY,
-    type varchar(50) NOT NULL,
+    type type_navire  NOT NULL,
     category int NOT NULL,
     passagers_max int NOT NULL DEFAULT 0,
     crew int NOT NULL,
@@ -71,7 +72,6 @@ CREATE TABLE navire(
         AND category <= 5
         AND passagers_max > crew
         AND cale_max >= 0
-        AND type NOT LIKE '%[A-Z]%'
     )
 );
 
@@ -147,7 +147,7 @@ CREATE TABLE produit(
     ), 
     CONSTRAINT CHK_Name CHECK(name NOT LIKE '%[^A-Z]%'),
     CONSTRAINT CHK_Perishable CHECK(NOT (perishable=true AND shelf_life IS NULL)),
-    CONSTRAINT CHK_Perishable2 CHECK(perishable=false AND shelf_life IS NOT NULL)
+    CONSTRAINT CHK_Perishable2 CHECK(NOT (perishable=false AND shelf_life IS NOT NULL))
 );
 
 CREATE TABLE Buy_Product(
@@ -179,6 +179,9 @@ CREATE TABLE cargaison(
     FOREIGN KEY(id_voyage) REFERENCES voyage(id_voyage),
     FOREIGN KEY(product_id) REFERENCES produit(product_id)
 );
+
+\COPY nation FROM CSV/nation.dat WITH (FORMAT CSV)
+\COPY produit ( name, perishable, shelf_life, value_per_kilo, volume) FROM CSV/produit.dat WITH (FORMAT CSV)
 
 
 -- INSERT INTO nation VALUES ('Cyprus');
