@@ -193,6 +193,8 @@ CREATE TABLE cargaison(
 \COPY capturation FROM CSV/capturation.dat WITH (FORMAT CSV)
 \COPY voyage (id_navire, type_voyage, distance, passagers, port_origin, port_destination, date_depart, date_arrivee) FROM CSV/voyage.dat WITH (FORMAT CSV)
 \COPY etape_transitoire (ascending_passagers, descending_passagers, name_port, id_voyage, date_passage) FROM CSV/etape_transitoire.dat WITH (FORMAT CSV)
+\COPY Buy_Product (product_id, id_etape, quantity) FROM CSV/buy_product.dat WITH (FORMAT CSV)
+\COPY Sell_Product (product_id, id_etape, quantity) FROM CSV/sell_product.dat WITH (FORMAT CSV)
 
 
 -- INSERT INTO Buy_Product VALUES (1, '2020-01-01');
