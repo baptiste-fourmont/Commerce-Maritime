@@ -1,2 +1,0 @@
-Ajouter les contraintes de produits dans la version finale 42
-et aussi ajouter les informations sur la modélisation
