@@ -26,4 +26,4 @@ FROM
 GROUP by
     id_navire
 ORDER by
-    id_navire
+    id_navire;
