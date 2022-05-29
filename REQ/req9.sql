@@ -1,7 +1,5 @@
-/*
- Pour chaque navire retourner la distance moyenne de ses trajets, à
- condition qu’il ait réalisé au moins un trajet de plus de 500km
- */
+-- For each vessel return the average distance of its trips
+-- provided that it has made at least one trip of more than 500km
 SELECT
     DISTINCT n.id_navire,
     AVG(CAST(v.distance AS REAL))
