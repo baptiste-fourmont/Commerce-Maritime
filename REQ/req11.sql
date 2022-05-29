@@ -1,6 +1,4 @@
-/*  
- Les etapes qui maximisent l’écart entre les passagers montées et descendus
- */
+--  Steps that maximize the gap between up and down passengers
 SELECT
     id_etape as numero_etape
 FROM
