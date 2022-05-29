@@ -1,4 +1,4 @@
-/* Le produit qui a été vendu en plus grande quantité durant une étape */
+/* The product that was sold in the greatest quantity during a stage */
 SELECT
     name,
     quantity
