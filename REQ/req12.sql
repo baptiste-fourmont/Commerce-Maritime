@@ -1,6 +1,4 @@
-/*
- La somme des années d'arrivées des bateaux durant un voyage
- */
+--  The sum of the day, month and year of arrival of a ship for all its voyages
 SELECT
     id_navire,
     SUM(
