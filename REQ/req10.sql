@@ -1,6 +1,4 @@
-/*
- Les produits qui ont été acheté avec la même quantité
- */
+--  Products that have been purchased or sold in the same quantities
 SELECT
     DISTINCT Buy_Product.product_id
 FROM
