@@ -1,3 +1,4 @@
+-- The crossing of a journey without verification of passengers 
 WITH RECURSIVE Access(id_voyage, date_passage) AS (
     SELECT
         id_voyage,
