@@ -1,3 +1,4 @@
+-- The crossing of a journey with passengers verification
 WITH RECURSIVE Access(id_voyage, date_passage, passagers) AS (
     SELECT
         id_voyage,
